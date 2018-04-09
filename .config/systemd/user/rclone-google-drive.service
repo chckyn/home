@@ -1,0 +1,13 @@
+[Unit]
+Description=Mount Google Drive to ~/Cloud/google-drive using rclone
+Documentation=https://rclone.org/docs/
+
+[Install]
+WantedBy=default.target
+
+[Service]
+Environment=GD_MOUNTPOINT=%h/Cloud/google-drive
+ExecStartPre=/bin/mkdir -p $GD_MOUNTPOINT
+ExecStart=/usr/bin/rclone mount google-drive:/ $GD_MOUNTPOINT
+Restart=on-failure
+ExecStop=fusermount -u $GD_MOUNTPOINT
